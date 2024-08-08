@@ -78,27 +78,21 @@ const App = () => {
       <ScrollView>
         <View style={styles.container}>
           <FeaturedBrands brands={featuredBrands} />
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+          <View style={styles.tabContainer}>
+            <TouchableOpacity onPress={() => handleTabChange('BRAND NAME')}>
+              <Text style={[styles.tabText, selectedTab === 'BRAND NAME' && styles.activeTabText]}>BRAND NAME</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleTabChange('BRAND ORIGINS')}>
+              <Text style={[styles.tabText, selectedTab === 'BRAND ORIGINS' && styles.activeTabText]}>BRAND ORIGINS</Text>
+            </TouchableOpacity>
+          </View>
+          {selectedTab === 'BRAND NAME' ? (
+            <SearchBar searchText={searchText} setSearchText={setSearchText} />
           ) : (
-            <>
-              <View style={styles.tabContainer}>
-                <TouchableOpacity onPress={() => handleTabChange('BRAND NAME')}>
-                  <Text style={[styles.tabText, selectedTab === 'BRAND NAME' && styles.activeTabText]}>BRAND NAME</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleTabChange('BRAND ORIGINS')}>
-                  <Text style={[styles.tabText, selectedTab === 'BRAND ORIGINS' && styles.activeTabText]}>BRAND ORIGINS</Text>
-                </TouchableOpacity>
-              </View>
-              {selectedTab === 'BRAND NAME' ? (
-                <SearchBar searchText={searchText} setSearchText={setSearchText} />
-              ) : (
-                <CountryPicker setSelectedCountry={setSelectedCountry} />
-              )}
-              {selectedTab === 'BRAND NAME' && !searchText && <AlphabetList setSelectedLetter={setSelectedLetter} />}
-              <BrandList brands={brands} />
-            </>
+            <CountryPicker setSelectedCountry={setSelectedCountry} />
           )}
+          {selectedTab === 'BRAND NAME' && !searchText && <AlphabetList setSelectedLetter={setSelectedLetter} />}
+          <BrandList brands={brands} />
         </View>
       </ScrollView>
     </SafeAreaView>
